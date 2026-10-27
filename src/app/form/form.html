@@ -1,0 +1,88 @@
+<div class="container m-5">
+    <form>
+        <h3 class="text-center m-3">Encargar pizzas</h3>
+        <div class="mb-3 text-center">
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="radioInline"
+                    id="inlineRadioDefault" checked>
+                <label class="form-check-label"
+                    for="inlineRadioDefault">Domicilio</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="radioInline"
+                    id="inlineRadioChecked">
+                <label class="form-check-label"
+                    for="inlineRadioChecked">Recoger</label>
+            </div>
+        </div>
+        <div class="mb-3">
+            <select class="form-select" id="validationSelectPizza"
+                aria-label="Default select" required>
+                <option selected disabled value>Selecciona una pizza</option>
+                <option value="1">Cuatro quesos</option>
+                <option value="2">Margarita</option>
+                <option value="3">Hawaiana</option>
+                <option value="4">Barbacoa</option>
+            </select>
+            <div class="invalid-feedback">
+                Selecciona una pizza por favor.
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="formRange" class="form-label">Selecciona una
+                hora</label>
+            <input type="range" class="form-range" min="11" max="24"
+                step="0.5"
+                id="formRange" (input)="actualizarValor($event)">
+            <output for="formRange" id="rangeValue">
+                {{ rangeValue }}
+            </output>
+        </div>
+        <div class="row mb-3">
+            <label for="input"
+                class="col-sm-2 col-form-label">Dirección</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="input" required>
+            </div>
+        </div>
+
+        <fieldset class="row mb-3">
+            <legend class="col-form-label col-sm-2 pt-0">Tipo de pago</legend>
+            <div class="col-sm-10">
+                <div class="form-check">
+                    <input class="form-check-input" type="radio"
+                        name="gridRadios" id="gridRadios1" value="option1"
+                        checked (click)="toggleBizum()">
+                    <label class="form-check-label" for="gridRadios1">
+                        Bizum
+                    </label>
+                </div>
+                <div>
+                    <label for="input"
+                        class="col-sm-2 col-form-label" [hidden]="bizumOculto()">Teléfono</label>
+                    <input type="text" class="form-control" id="input"
+                        [hidden]="bizumOculto()" required>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio"
+                        name="gridRadios" id="gridRadios2" value="option2"
+                        (click)="toggleTarjeta()">
+                    <label class="form-check-label" for="gridRadios2">
+                        Tarjeta
+                    </label>
+                </div>
+                <div>
+                    <label for="input"
+                        class="col-sm-2 col-form-label" [hidden]="tarjetaOculto()">Tarjeta</label>
+                    <input type="text" class="form-control" id="input"
+                        [hidden]="tarjetaOculto()" required>
+                </div>
+            </div>
+        </fieldset>
+        <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-danger">Confirmar y
+                pagar</button>
+        </div>
+    </form>
+</div>

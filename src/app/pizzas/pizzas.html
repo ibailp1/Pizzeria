@@ -1,0 +1,35 @@
+<div class="container">
+    <h2 class="text-center m-3">Catálogo de Pizzas</h2>
+    <div class="row">
+        @for (pizza of listaPizzas; track $index) {
+        <div class="col-lg-3 col-12 col-sm-6 col-md-6">
+            <div class="card mb-3">
+                <img [src]="pizza.image" class="card-img-top"
+                    [alt]="pizza.name">
+
+                <div class="card-body">
+                    <h4 class="card-title">
+                        {{ pizza.name }}
+                        <small class="text-muted">{{ pizza.price }}€</small>
+                    </h4>
+
+                    <h6>Ingredientes</h6>
+
+                    <ul class="list-group list-group-numbered mb-2">
+                        @for (ingredient of pizza.ingredients; track
+                        $index) {
+                        <li class="list-group-item">{{ ingredient }}</li>
+                        }
+                    </ul>
+
+                    <div class="d-grid gap-2">
+                        <button type="button" class="btn btn-danger">
+                            Encargar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        }
+    </div>
+</div>
