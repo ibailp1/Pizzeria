@@ -14,7 +14,7 @@
           <a class="nav-link" href="#">Encargar</a>
         </li>
       </ul>
-      <form class="d-flex" (submit)="$event.preventDefault()">
+      <form class="d-flex">
         <input class="form-control me-2" [(ngModel)]="ingredientes" name="ingredientes" id="buscador" type="text" placeholder="Buscar" aria-label="Search">
         <button class="btn btn-outline-danger" (click)="buscar()" type="button">Buscar</button>
       </form>

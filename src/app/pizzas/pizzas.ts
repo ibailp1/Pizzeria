@@ -1,7 +1,10 @@
-import { Component, Input, OnChanges } from '@angular/core';
+import { Component, input, OnChanges } from '@angular/core';
+import { Pizza } from '../models/PizzaModel'
+import { FormsModule } from '@angular/forms';
+
 
 @Component({
-  imports: [],
+  imports: [FormsModule],
   selector: 'app-pizzas',
   styleUrl: './pizzas.css',
   templateUrl: './pizzas.html',
@@ -9,22 +12,26 @@ import { Component, Input, OnChanges } from '@angular/core';
 export class Pizzas implements OnChanges {
 
   listaPizzas: Pizza[] = [
-    new Pizza("Margarita", 11, ["Tomate", "Mozzarella", "Albahaca"], "margarita.jpg"),
-    new Pizza("Cuatro Quesos", 12, ["Mozzarella", "Gorgonzola", "Parmesano", "Queso emmetal"], "cuatroquesos.jpg"),
-    new Pizza("Hawaiana", 10, ["Tomate", "Mozzarella", "Jamón cocido", "Piña"], "hawaiana.jpg"),
-    new Pizza("Barbacoa", 11, ["Salsa barbacoa", "Carne picada", "Bacon", "Cebolla"], "barbacoa.jpg"),
-    new Pizza("Barbacoa", 11, ["Salsa barbacoa", "Carne picada", "Bacon", "Cebolla"], "barbacoa.jpg"),
-    new Pizza("Hawaiana", 10, ["Tomate", "Mozzarella", "Jamón cocido", "Piña"], "hawaiana.jpg"),
-    new Pizza("Cuatro Quesos", 12, ["Mozzarella", "Gorgonzola", "Parmesano", "Queso emmetal"], "cuatroquesos.jpg"),
-    new Pizza("Margarita", 11, ["Tomate", "Mozzarella", "Albahaca"], "margarita.jpg")
+    new Pizza("Margarita", 11, ["Tomate", "Mozzarella", "Albahaca"], "margarita.jpg", 1),
+    new Pizza("Cuatro Quesos", 12, ["Mozzarella", "Gorgonzola", "Parmesano", "Queso emmetal"], "cuatroquesos.jpg", 1),
+    new Pizza("Hawaiana", 10, ["Tomate", "Mozzarella", "Jamón cocido", "Piña"], "hawaiana.jpg", 1),
+    new Pizza("Barbacoa", 11, ["Salsa barbacoa", "Carne picada", "Bacon", "Cebolla"], "barbacoa.jpg", 1),
+    new Pizza("Barbacoa", 11, ["Salsa barbacoa", "Carne picada", "Bacon", "Cebolla"], "barbacoa.jpg", 1),
+    new Pizza("Hawaiana", 10, ["Tomate", "Mozzarella", "Jamón cocido", "Piña"], "hawaiana.jpg", 1),
+    new Pizza("Cuatro Quesos", 12, ["Mozzarella", "Gorgonzola", "Parmesano", "Queso emmetal"], "cuatroquesos.jpg", 1),
+    new Pizza("Margarita", 11, ["Tomate", "Mozzarella", "Albahaca"], "margarita.jpg", 1)
   ];
 
-  @Input() ingredientes: string = "";
+  ingredientes = input<string>("");
 
   pizzasFiltradas: Pizza[] = [...this.listaPizzas];
 
   ngOnChanges() {
-    const texto = this.ingredientes.toLowerCase().trim();
+    this.filtrarPizzas();
+  }
+
+  filtrarPizzas() {
+    const texto = this.ingredientes().toLowerCase().trim();
 
     if (texto === "") {
       this.pizzasFiltradas = [...this.listaPizzas];
@@ -36,18 +43,8 @@ export class Pizzas implements OnChanges {
       );
     }
   }
-}
 
-export class Pizza {
-  public name: string;
-  public price: number;
-  public ingredients: string[];
-  public image: string;
-
-  constructor(name: string, price: number, ingredients: string[], image: string) {
-    this.name = name;
-    this.price = price;
-    this.ingredients = ingredients;
-    this.image = image;
+  agregarPizza(cantidad: number) {
+    alert("Has agregado " + cantidad + " pizzas");
   }
 }
