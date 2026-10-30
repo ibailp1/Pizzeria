@@ -1,12 +1,20 @@
-import { Component, Input } from '@angular/core';
-import { Pizza } from '../pizzas/pizzas';
+import { Component, Output, EventEmitter } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 @Component({
-  imports: [],
+  imports: [FormsModule],
   selector: 'app-navbar',
   styleUrl: './navbar.css',
   templateUrl: './navbar.html',
 })
 export class Navbar {
+
+  @Output() buscarIngredientes = new EventEmitter<string>();
+
+  ingredientes: string = "";
+
+  buscar() {
+    this.buscarIngredientes.emit(this.ingredientes);
+  }
 
 }

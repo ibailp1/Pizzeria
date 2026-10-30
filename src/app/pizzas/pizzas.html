@@ -1,34 +1,48 @@
 <div class="container">
     <h2 class="text-center m-3">Catálogo de Pizzas</h2>
+
     <div class="row">
-        @for (pizza of listaPizzas; track $index) {
+        @for (pizza of pizzasFiltradas; track $index) {
         <div class="col-lg-3 col-12 col-sm-6 col-md-6">
             <div class="card mb-3">
-                <img [src]="pizza.image" class="card-img-top"
+
+                <img
+                    [src]="pizza.image"
+                    class="card-img-top"
                     [alt]="pizza.name">
 
                 <div class="card-body">
                     <h4 class="card-title">
                         {{ pizza.name }}
-                        <small class="text-muted">{{ pizza.price }}€</small>
+                        <small class="text-muted">
+                            {{ pizza.price }}€
+                        </small>
                     </h4>
 
                     <h6>Ingredientes</h6>
 
                     <ul class="list-group list-group-numbered mb-2">
-                        @for (ingredient of pizza.ingredients; track
-                        $index) {
-                        <li class="list-group-item">{{ ingredient }}</li>
+                        @for (ingredient of pizza.ingredients; track $index) {
+                        <li class="list-group-item">
+                            {{ ingredient }}
+                        </li>
                         }
                     </ul>
 
-                    <div class="d-grid gap-2">
-                        <button type="button" class="btn btn-danger">
-                            Encargar
+                    <div class="d-flex input-group">
+                        <span class="input-group-text">Cantidad</span>
+                        <input class="form-control text-center w-25" type="number" [value]="1" min="1">
+                        <button type="button" class="btn btn-danger w-25">
+                            <i class="bi bi-cart"></i>
                         </button>
                     </div>
                 </div>
+
             </div>
+        </div>
+        } @empty {
+        <div class="col-12 text-center">
+            <p>No se han encontrado pizzas con esos ingredientes.</p>
         </div>
         }
     </div>

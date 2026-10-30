@@ -1,5 +1,4 @@
-<app-header></app-header>
-<app-navbar></app-navbar>
-<app-pizzas></app-pizzas>
+<app-navbar (buscarIngredientes)="ingredientesBuscados = $event"></app-navbar>
+<app-pizzas [ingredientes]="ingredientesBuscados"></app-pizzas>
 <app-form></app-form>
 <app-footer></app-footer>
