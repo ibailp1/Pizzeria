@@ -1,4 +1,5 @@
 <app-navbar (buscarIngredientes)="ingredientesBuscados = $event"></app-navbar>
-<app-pizzas [ingredientes]="ingredientesBuscados"></app-pizzas>
+<app-pizzas [ingredientes]="ingredientesBuscados" (pedidoActualizado)="recibirPedido = $event"></app-pizzas>
+<app-pedido [pedido]="recibirPedido"></app-pedido>
 <app-form></app-form>
 <app-footer></app-footer>

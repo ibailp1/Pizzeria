@@ -1,5 +1,7 @@
-import { Component, input, OnChanges } from '@angular/core';
-import { Pizza } from '../models/PizzaModel'
+import { Component, output, input, OnChanges } from '@angular/core';
+import { Pizza } from '../models/PizzaModel';
+import { Order } from '../models/OrderModel';
+import { ItemPedido } from '../models/ItemPedidoModel';
 import { FormsModule } from '@angular/forms';
 
 
@@ -44,7 +46,30 @@ export class Pizzas implements OnChanges {
     }
   }
 
-  agregarPizza(cantidad: number) {
-    alert("Has agregado " + cantidad + " pizzas");
+  pedido: Order | null = null;
+  pedidoActualizado = output<Order>();
+
+  agregarPizza(pizza: Pizza) {
+    const itemPedido: ItemPedido = new ItemPedido(pizza);
+
+    let itemsActualizados;
+
+    if (this.pedido == null) {
+      itemsActualizados = [itemPedido];
+    } else {
+      const itemExistente = this.pedido.items.find(item => item.pizza.name === pizza.name);
+
+      if (itemExistente != null) {
+        itemExistente.amount += pizza.amount;
+        itemsActualizados = [...this.pedido.items];
+      } else {
+        itemsActualizados = [...this.pedido.items, itemPedido]
+      }
+    }
+
+    this.pedido = new Order(itemsActualizados);
+
+    this.pedidoActualizado.emit(this.pedido);
   }
+
 }
