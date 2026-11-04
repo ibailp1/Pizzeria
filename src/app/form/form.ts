@@ -1,4 +1,7 @@
-import { Component, signal } from '@angular/core';
+
+import { Component, inject, signal } from '@angular/core';
+import { Pedido } from '../servicios/pedido';
+import { Router } from '@angular/router';
 
 @Component({
   imports: [],
@@ -7,7 +10,12 @@ import { Component, signal } from '@angular/core';
   templateUrl: './form.html',
 })
 export class Form {
-  rangeValue = 24;
+
+  constructor(private router: Router) { }
+
+  pedidoService: Pedido = inject(Pedido);
+
+  rangeValue: number = 24;
 
   actualizarValor(event: Event) {
     const input = event.target as HTMLInputElement;
@@ -25,5 +33,10 @@ export class Form {
   toggleTarjeta() {
     this.tarjetaOculto.set(false);
     this.bizumOculto.set(true);
+  }
+
+  finalizarPedido() {
+    this.pedidoService.pedido = [];
+    this.router.navigate(['/inicio']);
   }
 }

@@ -1,22 +1,22 @@
 <div class="container">
     <h2 class="text-center m-3">Catálogo de Pizzas</h2>
-
+    <form class="d-flex pb-4">
+        <input class="form-control me-2" [(ngModel)]="ingredientes"
+            name="ingredientes" id="buscador" type="text" placeholder="Buscar"
+            aria-label="Search">
+        <button class="btn btn-outline-danger" (click)="filtrarPizzas()"
+            type="button">Buscar</button>
+    </form>
     <div class="row">
         @for (pizza of pizzasFiltradas; track $index) {
         <div class="col-lg-3 col-12 col-sm-6 col-md-6">
             <div class="card mb-3">
-
-                <img
-                    [src]="pizza.image"
-                    class="card-img-top"
+                <img [src]="pizza.image" class="card-img-top"
                     [alt]="pizza.name">
-
                 <div class="card-body">
                     <h4 class="card-title">
                         {{ pizza.name }}
-                        <small class="text-muted">
-                            {{ pizza.price }}€
-                        </small>
+                        <small class="text-muted">{{ pizza.price }}€</small>
                     </h4>
 
                     <h6>Ingredientes</h6>
@@ -31,8 +31,11 @@
 
                     <div class="d-flex input-group">
                         <span class="input-group-text">Cantidad</span>
-                        <input class="form-control text-center w-25" type="number" [(ngModel)] ="pizza.amount" [value]="pizza.amount" min="1">
-                        <button type="button" (click)="agregarPizza(pizza)" class="btn btn-danger w-25">
+                        <input class="form-control text-center w-25"
+                            type="number" [(ngModel)]="pizza.amount"
+                            [value]="pizza.amount" min="1">
+                        <button type="button" (click)="agregarPizza(pizza)"
+                            class="btn btn-danger w-25">
                             <i class="bi bi-cart"></i>
                         </button>
                     </div>
@@ -40,10 +43,80 @@
 
             </div>
         </div>
+
         } @empty {
+
         <div class="col-12 text-center">
             <p>No se han encontrado pizzas con esos ingredientes.</p>
         </div>
+
         }
+
     </div>
+
+    @if (pedidoService.pedido.length > 0) {
+
+    <div class="container">
+        <div class="card">
+            <div class="card-header bg-danger text-white">
+                <h4 class="mb-0">
+                    <i class="bi bi-cart3 me-2"></i>
+                    Mi pedido
+                </h4>
+            </div>
+
+            <div class="card-body">
+
+                @for (item of pedidoService.pedido; track $index) {
+
+                <div
+                    class="d-flex justify-content-between align-items-center mb-3">
+
+                    <div>
+                        <h5 class="card-title mb-1">
+                            {{ item.pizza.name }}
+                        </h5>
+
+                        <div class="text-muted small">
+                            Cantidad: {{ item.amount }}
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-center gap-2 fw-bold">
+                        {{ item.amount * item.pizza.price }} €
+                        <button class="btn btn-danger btn-sm"
+                            type="button"
+                            (click)="pedidoService.eliminarPizza(item.pizza.name)">
+                            <i class="bi bi-trash"></i>
+                        </button>
+
+                    </div>
+
+                </div>
+
+                }
+
+                <hr>
+
+                <div
+                    class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="mb-0">Total:</h5>
+
+                    <h5 class="mb-0 text-danger">
+                        {{ pedidoService.calcularTotal() }} €
+                    </h5>
+                </div>
+
+                <a routerLink="/encargo"
+                    routerLinkActive="active"
+                    class="btn btn-danger btn-lg w-100 fw-bold"
+                    [class.disabled]="pedidoService.pedido.length == 0">
+                    <i class="bi bi-bag-check me-2"></i>
+                    Encargar pedido
+                </a>
+
+            </div>
+        </div>
+    </div>
+    }
 </div>

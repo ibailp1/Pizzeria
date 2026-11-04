@@ -1,17 +1,19 @@
-import { Component, output, input, OnChanges } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Pizza } from '../models/PizzaModel';
-import { Order } from '../models/OrderModel';
 import { ItemPedido } from '../models/ItemPedidoModel';
 import { FormsModule } from '@angular/forms';
-
+import { RouterModule } from '@angular/router';
+import { Pedido } from '../servicios/pedido';
 
 @Component({
-  imports: [FormsModule],
+  imports: [FormsModule, RouterModule],
   selector: 'app-pizzas',
   styleUrl: './pizzas.css',
   templateUrl: './pizzas.html',
 })
-export class Pizzas implements OnChanges {
+export class Pizzas {
+
+  pedidoService = inject(Pedido);
 
   listaPizzas: Pizza[] = [
     new Pizza("Margarita", 11, ["Tomate", "Mozzarella", "Albahaca"], "margarita.jpg", 1),
@@ -24,18 +26,13 @@ export class Pizzas implements OnChanges {
     new Pizza("Margarita", 11, ["Tomate", "Mozzarella", "Albahaca"], "margarita.jpg", 1)
   ];
 
-  ingredientes = input<string>("");
-
+  ingredientes: string = "";
   pizzasFiltradas: Pizza[] = [...this.listaPizzas];
 
-  ngOnChanges() {
-    this.filtrarPizzas();
-  }
-
   filtrarPizzas() {
-    const texto = this.ingredientes().toLowerCase().trim();
+    const texto = this.ingredientes.toLowerCase().trim();
 
-    if (texto === "") {
+    if (texto == "") {
       this.pizzasFiltradas = [...this.listaPizzas];
     } else {
       this.pizzasFiltradas = this.listaPizzas.filter(pizza =>
@@ -46,30 +43,19 @@ export class Pizzas implements OnChanges {
     }
   }
 
-  pedido: Order | null = null;
-  pedidoActualizado = output<Order>();
-
   agregarPizza(pizza: Pizza) {
+
     const itemPedido: ItemPedido = new ItemPedido(pizza);
 
-    let itemsActualizados;
+    const itemExistente = this.pedidoService.pedido.find(item => item.pizza.name == pizza.name);
 
-    if (this.pedido == null) {
-      itemsActualizados = [itemPedido];
+    if (itemExistente != null) {
+      itemExistente.amount += pizza.amount;
+
     } else {
-      const itemExistente = this.pedido.items.find(item => item.pizza.name === pizza.name);
 
-      if (itemExistente != null) {
-        itemExistente.amount += pizza.amount;
-        itemsActualizados = [...this.pedido.items];
-      } else {
-        itemsActualizados = [...this.pedido.items, itemPedido]
-      }
+      this.pedidoService.pedido.push(itemPedido);
     }
-
-    this.pedido = new Order(itemsActualizados);
-
-    this.pedidoActualizado.emit(this.pedido);
   }
 
 }
